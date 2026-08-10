@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 import logoImage from "../../blazly-logo-white.png";
@@ -41,7 +42,11 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen">{children}</body>
+      <body className="min-h-screen">
+        <ClerkProvider>
+          {children}
+        </ClerkProvider>
+      </body>
     </html>
   );
 }

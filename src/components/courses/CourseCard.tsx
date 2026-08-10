@@ -2,7 +2,7 @@ import { Course } from "@/lib/courses";
 
 export function CourseCard({ course: c }: { course: Course }) {
   return (
-    <a href={`/courses/${c.slug}`} className="block h-full">
+    <a href={`/dashboard/courses/${c.slug}`} className="block h-full">
       <div className="flex h-full flex-col overflow-hidden rounded-[24px] border border-line bg-paper-raised transition-all duration-300 hover:-translate-y-1 hover:border-emerald/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] group">
         <div className={`relative flex aspect-video w-full items-end overflow-hidden p-4 ${c.imageUrl ? 'bg-ink' : 'bg-gradient-to-br ' + c.gradient}`}>
           {c.imageUrl && (

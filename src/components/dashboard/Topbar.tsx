@@ -1,4 +1,5 @@
 import { Search, Bell } from "lucide-react";
+import { UserButton } from "@clerk/nextjs";
 
 export function Topbar() {
   return (
@@ -21,11 +22,11 @@ export function Topbar() {
           <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-gold" />
         </button>
         <div className="flex items-center gap-2.5">
-          <div className="h-9 w-9 rounded-full bg-linear-to-br from-[#dcd6c3] to-[#b8ae8f]" />
-          <div className="hidden text-left sm:block">
-            <p className="text-[13.5px] font-semibold leading-tight">Alex</p>
-            <p className="text-[12px] text-muted">Professional GEO Specialist</p>
-          </div>
+          <UserButton afterSignOutUrl="/" appearance={{
+            elements: {
+              avatarBox: "w-9 h-9"
+            }
+          }} />
         </div>
       </div>
     </div>

@@ -1,8 +1,9 @@
 import { Play } from "lucide-react";
+import Link from "next/link";
 
 export function ContinueLearning() {
   return (
-    <div className="group relative overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-br from-[#1A1D24] via-[#12141A] to-[#0D0F14] text-paper shadow-2xl transition-transform duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)]">
+    <Link href="/dashboard/courses/geo-professional" className="block group relative overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-br from-[#1A1D24] via-[#12141A] to-[#0D0F14] text-paper shadow-2xl transition-transform duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)]">
       {/* Decorative gradient orb */}
       <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-emerald/20 blur-[80px] transition-opacity duration-500 group-hover:bg-emerald/30" />
       
@@ -32,6 +33,6 @@ export function ContinueLearning() {
           <Play size={24} fill="currentColor" className="ml-1" />
         </button>
       </div>
-    </div>
+    </Link>
   );
 }

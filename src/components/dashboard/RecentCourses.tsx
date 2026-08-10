@@ -1,4 +1,5 @@
 import { courses } from "@/lib/courses";
+import Link from "next/link";
 
 export function RecentCourses() {
   const withProgress = courses.filter((c) => c.progress !== undefined);
@@ -16,7 +17,7 @@ export function RecentCourses() {
 
       <div className="flex flex-col gap-3">
         {withProgress.map((c) => (
-          <div key={c.slug} className="group flex items-center gap-5 rounded-2xl border border-transparent p-3 transition-all hover:border-line hover:bg-paper hover:shadow-sm">
+          <Link href={`/dashboard/courses/${c.slug}`} key={c.slug} className="block group flex items-center gap-5 rounded-2xl border border-transparent p-3 transition-all hover:border-line hover:bg-paper hover:shadow-sm">
             <div
               className={`h-14 w-14 shrink-0 rounded-xl bg-gradient-to-br ${c.gradient} shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md`}
             />
@@ -34,7 +35,7 @@ export function RecentCourses() {
                 />
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

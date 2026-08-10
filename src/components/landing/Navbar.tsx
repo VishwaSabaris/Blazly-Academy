@@ -1,4 +1,6 @@
 import { Button, LogoMark } from "@/components/ui/Primitives";
+import { UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 const links = [
   { href: "#courses", label: "Courses" },
@@ -7,7 +9,9 @@ const links = [
   { href: "#reviews", label: "Reviews" },
 ];
 
-export function Navbar() {
+export async function Navbar() {
+  const { userId } = await auth();
+
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-paper/85 backdrop-blur-md">
       <nav className="mx-auto flex max-w-[1180px] items-center justify-between px-8 py-4.5 sm:px-5">
@@ -25,12 +29,23 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <a href="/login" className="hidden text-[14.5px] font-semibold text-ink-soft hover:text-ink sm:block">
-            Log in
-          </a>
-          <a href="/signup">
-            <Button variant="primary">Enroll now</Button>
-          </a>
+          {!userId ? (
+            <>
+              <a href="/login" className="hidden text-[14.5px] font-semibold text-ink-soft hover:text-ink sm:block">
+                Log in
+              </a>
+              <a href="/signup">
+                <Button variant="primary">Enroll now</Button>
+              </a>
+            </>
+          ) : (
+            <>
+              <a href="/dashboard" className="hidden text-[14.5px] font-semibold text-ink-soft hover:text-ink sm:block mr-2">
+                Dashboard
+              </a>
+              <UserButton afterSignOutUrl="/" appearance={{ elements: { avatarBox: "w-9 h-9" } }} />
+            </>
+          )}
         </div>
       </nav>
     </header>

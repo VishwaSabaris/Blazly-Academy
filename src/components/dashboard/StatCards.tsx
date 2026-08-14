@@ -1,14 +1,79 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { GraduationCap, Award, Clock, Target, Flame } from "lucide-react";
 
-const stats = [
-  { label: "Courses completed", value: "3", icon: GraduationCap },
-  { label: "Certificates", value: "2", icon: Award },
-  { label: "Learning hours", value: "47.5", icon: Clock },
-  { label: "Quiz accuracy", value: "88%", icon: Target },
-  { label: "Current streak", value: "6 days", icon: Flame },
-];
-
 export function StatCards() {
+  const [coursesCompleted, setCoursesCompleted] = useState("2");
+  const [certificates, setCertificates] = useState("1");
+  const [learningHours, setLearningHours] = useState("45.0");
+  const [quizAccuracy, setQuizAccuracy] = useState("88%");
+  const [streak, setStreak] = useState("6 days");
+
+  useEffect(() => {
+    // 1. Calculate dynamic course completion & certificates
+    const GEO_FOUNDATIONS_SLUG = "geo-foundations";
+    const savedVideos = localStorage.getItem(`blazly_videos_${GEO_FOUNDATIONS_SLUG}`);
+    const savedQuizzes = localStorage.getItem(`blazly_quizzes_${GEO_FOUNDATIONS_SLUG}`);
+    
+    const videos = savedVideos ? JSON.parse(savedVideos) : {};
+    const quizzes = savedQuizzes ? JSON.parse(savedQuizzes) : {};
+
+    const moduleIds = ["m1", "m2", "m3", "m4", "m5", "m6"];
+    let completedVideosCount = 0;
+    let completedQuizzesCount = 0;
+    
+    moduleIds.forEach(id => {
+      if (videos[id]) completedVideosCount++;
+      if (quizzes[id]) completedQuizzesCount++;
+    });
+
+    const totalCompletions = completedVideosCount + completedQuizzesCount;
+    const progress = Math.round((totalCompletions / 12) * 100);
+    const isCompleted = progress === 100;
+
+    setCoursesCompleted(isCompleted ? "3" : "2");
+    setCertificates(isCompleted ? "2" : "1");
+
+    // 2. Learning hours: 45.1 hours base + 0.4h per video watched
+    const hoursVal = (45.1 + completedVideosCount * 0.4).toFixed(1);
+    setLearningHours(hoursVal);
+
+    // 3. Quiz Accuracy: Average of taken module quizzes
+    let totalScore = 0;
+    let gradedQuizzesCount = 0;
+    const quizIds = [
+      "m1_quiz",
+      "m2_quiz",
+      "m3_quiz",
+      "m4_quiz",
+      "m5_quiz",
+      "m6_quiz"
+    ];
+
+    quizIds.forEach(qid => {
+      const score = localStorage.getItem(`blazly_quiz_score_${qid}`);
+      if (score) {
+        totalScore += parseInt(score);
+        gradedQuizzesCount++;
+      }
+    });
+
+    if (gradedQuizzesCount > 0) {
+      setQuizAccuracy(`${Math.round(totalScore / gradedQuizzesCount)}%`);
+    } else {
+      setQuizAccuracy("88%"); // Default mock baseline
+    }
+  }, []);
+
+  const stats = [
+    { label: "Courses completed", value: coursesCompleted, icon: GraduationCap },
+    { label: "Certificates", value: certificates, icon: Award },
+    { label: "Learning hours", value: learningHours, icon: Clock },
+    { label: "Quiz accuracy", value: quizAccuracy, icon: Target },
+    { label: "Current streak", value: streak, icon: Flame },
+  ];
+
   return (
     <div className="grid grid-cols-5 gap-4 max-[1100px]:grid-cols-3 max-[640px]:grid-cols-2">
       {stats.map((s) => (

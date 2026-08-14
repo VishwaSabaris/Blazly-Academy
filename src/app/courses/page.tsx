@@ -16,8 +16,7 @@ export default function CoursesPage() {
     let list = courses.filter((c) => {
       const matchesSearch =
         search.trim() === "" ||
-        c.title.toLowerCase().includes(search.toLowerCase()) ||
-        c.instructor.toLowerCase().includes(search.toLowerCase());
+        c.title.toLowerCase().includes(search.toLowerCase());
       const matchesCategory = category === "All" || c.category === category;
       const matchesLevel = level === "All" || c.level === level;
       return matchesSearch && matchesCategory && matchesLevel;

@@ -3,11 +3,9 @@ import { ContinueLearning } from "@/components/dashboard/ContinueLearning";
 import { RecentCourses } from "@/components/dashboard/RecentCourses";
 import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
 import { WeeklyProgress } from "@/components/dashboard/WeeklyProgress";
-import { currentUser } from "@clerk/nextjs/server";
 
 export default async function DashboardPage() {
-  const user = await currentUser();
-  const firstName = user?.firstName || "Student";
+  const firstName = "Student";
 
   return (
     <main className="mx-auto max-w-[1200px] px-6 py-10 md:px-12 reveal is-visible">

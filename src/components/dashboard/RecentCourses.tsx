@@ -1,8 +1,38 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { courses } from "@/lib/courses";
 import Link from "next/link";
 
 export function RecentCourses() {
-  const withProgress = courses.filter((c) => c.progress !== undefined);
+  const [coursesList, setCoursesList] = useState(courses);
+
+  useEffect(() => {
+    const savedVideos = localStorage.getItem("blazly_videos_geo-foundations");
+    const savedQuizzes = localStorage.getItem("blazly_quizzes_geo-foundations");
+
+    const videos = savedVideos ? JSON.parse(savedVideos) : {};
+    const quizzes = savedQuizzes ? JSON.parse(savedQuizzes) : {};
+
+    let completedCount = 0;
+    const moduleIds = ["m1", "m2", "m3", "m4", "m5", "m6"];
+    moduleIds.forEach(id => {
+      if (videos[id]) completedCount++;
+      if (quizzes[id]) completedCount++;
+    });
+
+    const calculatedProgress = Math.round((completedCount / 12) * 100);
+
+    setCoursesList(prev => 
+      prev.map(c => 
+        c.slug === "geo-foundations" 
+          ? { ...c, progress: calculatedProgress } 
+          : c
+      )
+    );
+  }, []);
+
+  const withProgress = coursesList.filter((c) => c.progress !== undefined);
 
   return (
     <div className="rounded-[24px] border border-line bg-paper-raised p-7 shadow-sm">
@@ -30,7 +60,7 @@ export function RecentCourses() {
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-line shadow-inner">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-emerald to-emerald-deep transition-all duration-1000 ease-out"
+                  className="h-full rounded-full bg-gradient-to-r from-emerald to-emerald-deep transition-all duration-500 ease-out"
                   style={{ width: `${c.progress}%` }}
                 />
               </div>

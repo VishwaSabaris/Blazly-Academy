@@ -63,9 +63,6 @@ async function main() {
   }
 
   // Seed Modules and Lessons for GEO Foundations
-  const modId1 = 'mod_geo_1'
-  const modId2 = 'mod_geo_2'
-
   // Get the actual ID of the geo-foundations course since it might have been generated differently before
   const courseResult = await sql`SELECT id FROM "Course" WHERE slug = 'geo-foundations' LIMIT 1`
   if (!courseResult || courseResult.length === 0) {
@@ -73,23 +70,30 @@ async function main() {
   }
   const realCourseId = courseResult[0].id
 
-  await sql`
-    INSERT INTO "Module" (id, "courseId", title, description, "order")
-    VALUES (${modId1}, ${realCourseId}, 'Introduction to GEO', 'Learn the basics of AI Search', 1)
-    ON CONFLICT (id) DO UPDATE SET title = 'Introduction to GEO', "order" = 1, "courseId" = ${realCourseId}
-  `
+  const seedModules = [
+    { id: 'mod_geo_1', title: 'Search is Changing', description: 'Understand how search behavior is shifting in the AI era.', order: 1 },
+    { id: 'mod_geo_2', title: 'Understanding AI Search', description: 'Deep dive into retrieval systems and synthesis engines.', order: 2 },
+    { id: 'mod_geo_3', title: 'Introduction to GEO', description: 'Learn the core concepts of Generative Engine Optimization.', order: 3 },
+    { id: 'mod_geo_4', title: 'Content for AI', description: 'How to structure and optimize content for LLM ingestion.', order: 4 },
+    { id: 'mod_geo_5', title: 'Building Digital Authority', description: 'Establishing trustworthiness and credibility for LLMs.', order: 5 },
+    { id: 'mod_geo_6', title: 'Future of Search', description: 'Preparing for the future of agentic and conversational engines.', order: 6 }
+  ]
 
-  await sql`
-    INSERT INTO "Module" (id, "courseId", title, description, "order")
-    VALUES (${modId2}, ${realCourseId}, 'Core Strategies', 'Advanced tactics for LLMs', 2)
-    ON CONFLICT (id) DO UPDATE SET title = 'Core Strategies', "order" = 2, "courseId" = ${realCourseId}
-  `
+  for (const m of seedModules) {
+    await sql`
+      INSERT INTO "Module" (id, "courseId", title, description, "order")
+      VALUES (${m.id}, ${realCourseId}, ${m.title}, ${m.description}, ${m.order})
+      ON CONFLICT (id) DO UPDATE SET title = ${m.title}, description = ${m.description}, "order" = ${m.order}, "courseId" = ${realCourseId}
+    `
+  }
 
   const lessons = [
-    { id: 'les_1', moduleId: modId1, title: 'What is Generative Engine Optimization?', duration: '5:30', videoUrl: 'https://www.youtube.com/embed/jNQXAC9IVRw', isFreePreview: true, order: 1 },
-    { id: 'les_2', moduleId: modId1, title: 'How AI Search differs from Traditional SEO', duration: '8:15', videoUrl: 'https://www.youtube.com/embed/jNQXAC9IVRw', isFreePreview: false, order: 2 },
-    { id: 'les_3', moduleId: modId2, title: 'Optimizing for LLM Context Windows', duration: '12:00', videoUrl: 'https://www.youtube.com/embed/jNQXAC9IVRw', isFreePreview: false, order: 1 },
-    { id: 'les_4', moduleId: modId2, title: 'Structuring Data for RAG', duration: '9:45', videoUrl: 'https://www.youtube.com/embed/jNQXAC9IVRw', isFreePreview: false, order: 2 }
+    { id: 'les_geo_1', moduleId: 'mod_geo_1', title: 'Video Lecture', duration: '4:15', videoUrl: '/videos/module-1.mp4', isFreePreview: true, order: 1 },
+    { id: 'les_geo_2', moduleId: 'mod_geo_2', title: 'Video Lecture', duration: '6:20', videoUrl: '/videos/module-2.mp4', isFreePreview: false, order: 1 },
+    { id: 'les_geo_3', moduleId: 'mod_geo_3', title: 'Video Lecture', duration: '5:30', videoUrl: '/videos/module-3.mp4', isFreePreview: false, order: 1 },
+    { id: 'les_geo_4', moduleId: 'mod_geo_4', title: 'Video Lecture', duration: '7:45', videoUrl: '/videos/module-4.mp4', isFreePreview: false, order: 1 },
+    { id: 'les_geo_5', moduleId: 'mod_geo_5', title: 'Video Lecture', duration: '8:10', videoUrl: '/videos/module-5.mp4', isFreePreview: false, order: 1 },
+    { id: 'les_geo_6', moduleId: 'mod_geo_6', title: 'Video Lecture', duration: '5:55', videoUrl: '/videos/module-6.mp4', isFreePreview: false, order: 1 }
   ]
 
   for (const l of lessons) {

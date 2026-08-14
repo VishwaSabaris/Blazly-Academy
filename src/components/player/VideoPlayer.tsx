@@ -2,6 +2,7 @@ import { Lesson } from "@/lib/courseData";
 import { Play, Pause, ChevronLeft, ChevronRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/Primitives";
 import { useState } from "react";
+import { QuizInterface } from "@/components/courses/QuizInterface";
 
 export function VideoPlayer({
   lesson,
@@ -27,12 +28,33 @@ export function VideoPlayer({
       {/* Video Placeholder Area */}
       <div className="aspect-video bg-ink text-paper relative flex items-center justify-center group">
         {lesson.type === "video" ? (
-          <button 
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="w-16 h-16 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm transition-all"
-          >
-            {isPlaying ? <Pause size={28} fill="currentColor" /> : <Play size={28} fill="currentColor" className="ml-1" />}
-          </button>
+          lesson.videoUrl ? (
+            lesson.videoUrl.includes("youtube.com") || lesson.videoUrl.includes("embed") ? (
+              <iframe
+                src={lesson.videoUrl}
+                className="w-full h-full absolute inset-0 border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video
+                src={lesson.videoUrl}
+                controls
+                className="w-full h-full absolute inset-0 object-contain"
+              />
+            )
+          ) : (
+            <button 
+              onClick={() => setIsPlaying(!isPlaying)}
+              className="w-16 h-16 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm transition-all"
+            >
+              {isPlaying ? <Pause size={28} fill="currentColor" /> : <Play size={28} fill="currentColor" className="ml-1" />}
+            </button>
+          )
+        ) : lesson.type === "quiz" ? (
+          <div className="w-full h-full absolute inset-0 bg-paper-raised overflow-y-auto p-4 flex items-center justify-center">
+            <QuizInterface quizId={lesson.id} />
+          </div>
         ) : (
           <div className="text-center">
             <h3 className="text-2xl font-bold font-display mb-2">{lesson.title}</h3>
@@ -40,12 +62,14 @@ export function VideoPlayer({
           </div>
         )}
         
-        {/* Fake Video Controls */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-          <div className="h-1 bg-white/20 rounded-full overflow-hidden">
-            <div className={`h-full bg-emerald ${isPlaying ? "w-1/3" : "w-0"} transition-all duration-1000`} />
+        {/* Fake Video Controls (only show when no real video is playing) */}
+        {!lesson.videoUrl && lesson.type === "video" && (
+          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="h-1 bg-white/20 rounded-full overflow-hidden">
+              <div className={`h-full bg-emerald ${isPlaying ? "w-1/3" : "w-0"} transition-all duration-1000`} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Lesson Controls */}

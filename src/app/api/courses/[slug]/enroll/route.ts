@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(
@@ -8,11 +7,7 @@ export async function POST(
 ) {
   try {
     const { slug } = await params;
-    const { userId } = await auth();
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
+    const userId = "guest-user";
 
     const course = await prisma.course.findUnique({
       where: {

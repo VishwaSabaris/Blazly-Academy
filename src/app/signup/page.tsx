@@ -1,9 +1,7 @@
-import { SignUp } from "@clerk/nextjs";
+"use client";
+
+import LoginPage from "../login/page";
 
 export default function SignupPage() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-paper px-4">
-      <SignUp routing="hash" fallbackRedirectUrl="/dashboard" signInUrl="/login" />
-    </div>
-  );
+  return <LoginPage />;
 }

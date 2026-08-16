@@ -3,11 +3,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { PlayCircle, CheckCircle, Lock, Loader2, FileText, CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
-import { Module, Lesson } from "@prisma/client";
+import type { ModuleRecord } from "@/lib/firestore-types";
 import { QuizInterface } from "./QuizInterface";
 
-// Define a type for a module that includes its lessons
-export type ModuleWithLessons = Module & { lessons: Lesson[] };
+export type ModuleWithLessons = ModuleRecord;
 
 export type PlayableItem = {
   id: string;

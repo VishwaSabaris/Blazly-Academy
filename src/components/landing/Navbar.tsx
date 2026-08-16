@@ -1,4 +1,5 @@
-import { Button, LogoMark } from "@/components/ui/Primitives";
+import { LogoMark } from "@/components/ui/Primitives";
+import { AuthNav } from "@/components/auth/AuthNav";
 
 const links = [
   { href: "#courses", label: "Courses" },
@@ -24,11 +25,7 @@ export function Navbar() {
           ))}
         </div>
 
-        <div className="flex items-center gap-4">
-          <a href="/dashboard">
-            <Button variant="primary">Go to Dashboard</Button>
-          </a>
-        </div>
+        <AuthNav />
       </nav>
     </header>
   );

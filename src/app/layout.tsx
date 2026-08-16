@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 
 import logoImage from "../../blazly-logo-white.png";
 
@@ -42,7 +43,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

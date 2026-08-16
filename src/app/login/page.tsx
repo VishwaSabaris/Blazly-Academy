@@ -8,8 +8,8 @@ import { LogoMark } from "@/components/ui/Primitives";
 
 type AuthMode = "login" | "signup";
 
-function LoginContent() {
-  const [mode, setMode] = useState<AuthMode>("login");
+function LoginContent({ defaultMode = "login" }: { defaultMode?: AuthMode }) {
+  const [mode, setMode] = useState<AuthMode>(defaultMode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -61,12 +61,19 @@ function LoginContent() {
     setError(null);
     setGoogleLoading(true);
     try {
-      await signInWithGoogle();
+      await signInWithGoogle(redirectUrl);
       router.push(redirectUrl);
       router.refresh();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Google sign-in failed", err);
-      setError(err?.message || "Google sign-in was unsuccessful.");
+      const errMsg = err instanceof Error ? err.message : "Google sign-in was unsuccessful.";
+      if (errMsg.includes("auth/popup-closed-by-user")) {
+        setError("Google sign-in was cancelled.");
+      } else if (errMsg.includes("auth/unauthorized-domain")) {
+        setError("This domain is not authorized in Firebase. Add localhost to authorized domains.");
+      } else {
+        setError(errMsg);
+      }
     } finally {
       setGoogleLoading(false);
     }
@@ -164,6 +171,17 @@ function LoginContent() {
             />
           </div>
 
+          {mode === "login" && (
+            <div className="text-right">
+              <a
+                href="/forgot-password"
+                className="text-[12px] font-semibold text-emerald hover:text-emerald-deep transition-colors"
+              >
+                Forgot password?
+              </a>
+            </div>
+          )}
+
           <button
             type="submit"
             disabled={loading || googleLoading}
@@ -232,14 +250,18 @@ function LoginContent() {
   );
 }
 
-export default function LoginPage() {
+export default function LoginPage({
+  defaultMode = "login",
+}: {
+  defaultMode?: AuthMode;
+}) {
   return (
     <Suspense fallback={
       <div className="flex min-h-screen items-center justify-center bg-paper">
         <Loader2 className="animate-spin text-emerald w-10 h-10" />
       </div>
     }>
-      <LoginContent />
+      <LoginContent defaultMode={defaultMode} />
     </Suspense>
   );
 }

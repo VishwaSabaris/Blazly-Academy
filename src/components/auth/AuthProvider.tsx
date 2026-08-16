@@ -1,10 +1,17 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { onAuthStateChangedHelper, logOut as firebaseLogOut } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
+import {
+  onAuthStateChangedHelper,
+  logOut as firebaseLogOut,
+  completeGoogleRedirectSignIn,
+  consumeAuthRedirectUrl,
+} from "@/lib/firebase";
+import type { User } from "firebase/auth";
 
 interface AuthContextType {
-  user: any;
+  user: User | null;
   loading: boolean;
   logout: () => Promise<void>;
 }
@@ -16,17 +23,35 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChangedHelper((firebaseUser) => {
-      setUser(firebaseUser);
-      setLoading(false);
-    });
+    let unsubscribe = () => {};
+
+    const init = async () => {
+      try {
+        const redirectUser = await completeGoogleRedirectSignIn();
+        if (redirectUser) {
+          setUser(redirectUser);
+          router.replace(consumeAuthRedirectUrl());
+          router.refresh();
+        }
+      } catch (error) {
+        console.error("Google redirect sign-in failed:", error);
+      }
+
+      unsubscribe = onAuthStateChangedHelper((firebaseUser) => {
+        setUser(firebaseUser);
+        setLoading(false);
+      });
+    };
+
+    void init();
 
     return () => unsubscribe();
-  }, []);
+  }, [router]);
 
   const logout = async () => {
     setLoading(true);

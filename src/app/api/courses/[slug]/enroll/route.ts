@@ -1,61 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import {
+  createEnrollment,
+  getCourseBySlug,
+  getEnrollment,
+  upsertUser,
+} from "@/lib/firestore";
+import { getCurrentUser } from "@/lib/firebaseAdmin";
 
 export async function POST(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
     const { slug } = await params;
-    const userId = "guest-user";
+    const user = await getCurrentUser();
 
-    const course = await prisma.course.findUnique({
-      where: {
-        slug: slug,
-      },
-    });
+    if (!user) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
 
+    const course = await getCourseBySlug(slug);
     if (!course) {
       return new NextResponse("Course Not Found", { status: 404 });
     }
 
-    // Check if already enrolled
-    const existingEnrollment = await prisma.enrollment.findUnique({
-      where: {
-        userId_courseId: {
-          userId: userId,
-          courseId: course.id,
-        },
-      },
-    });
-
+    const existingEnrollment = await getEnrollment(user.uid, slug);
     if (existingEnrollment) {
       return new NextResponse("Already enrolled", { status: 400 });
     }
 
-    // Check if the user exists in our DB, if not create them
-    let user = await prisma.user.findUnique({
-      where: { clerkId: userId }
+    await upsertUser({
+      uid: user.uid,
+      email: user.email,
+      name: user.name,
     });
 
-    if (!user) {
-      // In a real app, we should use Clerk Webhooks to sync users automatically.
-      // But for this demo, we'll create the user just-in-time if they don't exist yet.
-      user = await prisma.user.create({
-        data: {
-          clerkId: userId,
-          email: `${userId}@placeholder.com`, // We don't have access to the exact email without clerk API client
-        }
-      });
-    }
-
-    const enrollment = await prisma.enrollment.create({
-      data: {
-        userId: user.id,
-        courseId: course.id,
-      },
-    });
-
+    const enrollment = await createEnrollment(user.uid, slug);
     return NextResponse.json(enrollment);
   } catch (error) {
     console.error("[COURSE_ENROLL]", error);

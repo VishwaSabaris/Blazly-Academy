@@ -30,9 +30,9 @@ export function UserButton() {
     router.refresh();
   };
 
-  const name = user.displayName || user.name || "Student";
+  const name = user.displayName || (user as any).name || "Student";
   const email = user.email || "";
-  const photo = user.photoURL || user.picture || "";
+  const photo = user.photoURL || (user as any).picture || "";
 
   return (
     <div className="relative" ref={dropdownRef}>

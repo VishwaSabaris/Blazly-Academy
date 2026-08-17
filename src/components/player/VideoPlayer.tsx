@@ -4,6 +4,26 @@ import { Button } from "@/components/ui/Primitives";
 import { useState } from "react";
 import { QuizInterface } from "@/components/courses/QuizInterface";
 
+const MODULE_DRIVE_VIDEOS: Record<string, string> = {
+  "/videos/module-1.mp4": "https://drive.google.com/file/d/1_VTrIC-wVfqiVhKzfkSGjAeY7aC4Or_F/preview",
+  "/videos/module-2.mp4": "https://drive.google.com/file/d/1NRGxDCPMrOQ_aWqx0Df2g4uXXIhDiClq/preview",
+  "/videos/module-3.mp4": "https://drive.google.com/file/d/1IEYgPWX5JRfteDcHbPH99w4J9KJV4CyF/preview",
+  "/videos/module-4.mp4": "https://drive.google.com/file/d/1NczIAUKxLxVIatQ89oNnvH3f18AjhjwK/preview",
+  "/videos/module-5.mp4": "https://drive.google.com/file/d/1ozxqAXJut3RtgaIg7I84pOABtwLCTRPF/preview",
+  "/videos/module-6.mp4": "https://drive.google.com/file/d/1yQ_2WMY99LUAA38LS-2fE50sU1RgAH1s/preview",
+};
+
+function getResolvedVideoUrl(url?: string | null): string | null {
+  if (!url) return null;
+  if (MODULE_DRIVE_VIDEOS[url]) {
+    return MODULE_DRIVE_VIDEOS[url];
+  }
+  if (url.includes("drive.google.com")) {
+    return url.replace(/\/view(\?.*)?$/, "/preview");
+  }
+  return url;
+}
+
 export function VideoPlayer({
   lesson,
   isCompleted,
@@ -22,23 +42,32 @@ export function VideoPlayer({
   hasPrev: boolean;
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const resolvedUrl = getResolvedVideoUrl(lesson.videoUrl);
+
+  const isIframeUrl = (url: string) =>
+    url.includes("youtube.com") ||
+    url.includes("youtu.be") ||
+    url.includes("vimeo.com") ||
+    url.includes("drive.google.com") ||
+    url.includes("embed") ||
+    url.includes("/preview");
 
   return (
     <div className="flex flex-col bg-paper rounded-2xl overflow-hidden border border-line">
       {/* Video Placeholder Area */}
       <div className="aspect-video bg-ink text-paper relative flex items-center justify-center group">
         {lesson.type === "video" ? (
-          lesson.videoUrl ? (
-            lesson.videoUrl.includes("youtube.com") || lesson.videoUrl.includes("embed") ? (
+          resolvedUrl ? (
+            isIframeUrl(resolvedUrl) ? (
               <iframe
-                src={lesson.videoUrl}
+                src={resolvedUrl}
                 className="w-full h-full absolute inset-0 border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
             ) : (
               <video
-                src={lesson.videoUrl}
+                src={resolvedUrl}
                 controls
                 className="w-full h-full absolute inset-0 object-contain"
               />

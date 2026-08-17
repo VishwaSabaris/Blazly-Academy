@@ -49,12 +49,12 @@ const courses = [
     price: 0,
     published: true,
     modules: [
-      { id: "mod_geo_1", title: "Search is Changing", description: "Understand how search behavior is shifting in the AI era.", order: 1, lesson: { id: "les_geo_1", title: "Video Lecture", duration: "4:15", videoUrl: "/videos/module-1.mp4", isFreePreview: true, order: 1 } },
-      { id: "mod_geo_2", title: "Understanding AI Search", description: "Deep dive into retrieval systems and synthesis engines.", order: 2, lesson: { id: "les_geo_2", title: "Video Lecture", duration: "6:20", videoUrl: "/videos/module-2.mp4", isFreePreview: false, order: 1 } },
-      { id: "mod_geo_3", title: "Introduction to GEO", description: "Learn the core concepts of Generative Engine Optimization.", order: 3, lesson: { id: "les_geo_3", title: "Video Lecture", duration: "5:30", videoUrl: "/videos/module-3.mp4", isFreePreview: false, order: 1 } },
-      { id: "mod_geo_4", title: "Content for AI", description: "How to structure and optimize content for LLM ingestion.", order: 4, lesson: { id: "les_geo_4", title: "Video Lecture", duration: "7:45", videoUrl: "/videos/module-4.mp4", isFreePreview: false, order: 1 } },
-      { id: "mod_geo_5", title: "Building Digital Authority", description: "Establishing trustworthiness and credibility for LLMs.", order: 5, lesson: { id: "les_geo_5", title: "Video Lecture", duration: "8:10", videoUrl: "/videos/module-5.mp4", isFreePreview: false, order: 1 } },
-      { id: "mod_geo_6", title: "Future of Search", description: "Preparing for the future of agentic and conversational engines.", order: 6, lesson: { id: "les_geo_6", title: "Video Lecture", duration: "5:55", videoUrl: "/videos/module-6.mp4", isFreePreview: false, order: 1 } },
+      { id: "mod_geo_1", title: "Search is Changing", description: "Understand how search behavior is shifting in the AI era.", order: 1, lesson: { id: "les_geo_1", title: "Video Lecture", duration: "4:32", videoUrl: "https://drive.google.com/file/d/1_VTrIC-wVfqiVhKzfkSGjAeY7aC4Or_F/preview", isFreePreview: true, order: 1 } },
+      { id: "mod_geo_2", title: "Understanding AI Search", description: "Deep dive into retrieval systems and synthesis engines.", order: 2, lesson: { id: "les_geo_2", title: "Video Lecture", duration: "4:13", videoUrl: "https://drive.google.com/file/d/1NRGxDCPMrOQ_aWqx0Df2g4uXXIhDiClq/preview", isFreePreview: false, order: 1 } },
+      { id: "mod_geo_3", title: "Introduction to GEO", description: "Learn the core concepts of Generative Engine Optimization.", order: 3, lesson: { id: "les_geo_3", title: "Video Lecture", duration: "6:59", videoUrl: "https://drive.google.com/file/d/1IEYgPWX5JRfteDcHbPH99w4J9KJV4CyF/preview", isFreePreview: false, order: 1 } },
+      { id: "mod_geo_4", title: "Content for AI", description: "How to structure and optimize content for LLM ingestion.", order: 4, lesson: { id: "les_geo_4", title: "Video Lecture", duration: "4:19", videoUrl: "https://drive.google.com/file/d/1NczIAUKxLxVIatQ89oNnvH3f18AjhjwK/preview", isFreePreview: false, order: 1 } },
+      { id: "mod_geo_5", title: "Building Digital Authority", description: "Establishing trustworthiness and credibility for LLMs.", order: 5, lesson: { id: "les_geo_5", title: "Video Lecture", duration: "3:33", videoUrl: "https://drive.google.com/file/d/1ozxqAXJut3RtgaIg7I84pOABtwLCTRPF/preview", isFreePreview: false, order: 1 } },
+      { id: "mod_geo_6", title: "Future of Search", description: "Preparing for the future of agentic and conversational engines.", order: 6, lesson: { id: "les_geo_6", title: "Video Lecture", duration: "2:45", videoUrl: "https://drive.google.com/file/d/1yQ_2WMY99LUAA38LS-2fE50sU1RgAH1s/preview", isFreePreview: false, order: 1 } },
     ],
   },
   {

@@ -26,6 +26,26 @@ interface CoursePlayerClientProps {
   modules: ModuleWithLessons[];
 }
 
+const MODULE_DRIVE_VIDEOS: Record<string, string> = {
+  "/videos/module-1.mp4": "https://drive.google.com/file/d/1_VTrIC-wVfqiVhKzfkSGjAeY7aC4Or_F/preview",
+  "/videos/module-2.mp4": "https://drive.google.com/file/d/1NRGxDCPMrOQ_aWqx0Df2g4uXXIhDiClq/preview",
+  "/videos/module-3.mp4": "https://drive.google.com/file/d/1IEYgPWX5JRfteDcHbPH99w4J9KJV4CyF/preview",
+  "/videos/module-4.mp4": "https://drive.google.com/file/d/1NczIAUKxLxVIatQ89oNnvH3f18AjhjwK/preview",
+  "/videos/module-5.mp4": "https://drive.google.com/file/d/1ozxqAXJut3RtgaIg7I84pOABtwLCTRPF/preview",
+  "/videos/module-6.mp4": "https://drive.google.com/file/d/1yQ_2WMY99LUAA38LS-2fE50sU1RgAH1s/preview",
+};
+
+function getResolvedVideoUrl(url?: string | null): string | null {
+  if (!url) return null;
+  if (MODULE_DRIVE_VIDEOS[url]) {
+    return MODULE_DRIVE_VIDEOS[url];
+  }
+  if (url.includes("drive.google.com")) {
+    return url.replace(/\/view(\?.*)?$/, "/preview");
+  }
+  return url;
+}
+
 export function CoursePlayerClient({
   courseSlug,
   courseTitle,
@@ -271,25 +291,35 @@ export function CoursePlayerClient({
         <div className="w-full bg-black aspect-video relative flex items-center justify-center">
           {isEnrolled || activeItem?.isFreePreview ? (
             activeItem?.type === "video" ? (
-              activeItem.videoUrl ? (
-                activeItem.videoUrl.includes("youtube.com") || activeItem.videoUrl.includes("embed") ? (
+              (() => {
+                const resolvedUrl = getResolvedVideoUrl(activeItem.videoUrl);
+                if (!resolvedUrl) {
+                  return <div className="text-white/70">Video coming soon</div>;
+                }
+                const isIframe =
+                  resolvedUrl.includes("youtube.com") ||
+                  resolvedUrl.includes("youtu.be") ||
+                  resolvedUrl.includes("vimeo.com") ||
+                  resolvedUrl.includes("drive.google.com") ||
+                  resolvedUrl.includes("embed") ||
+                  resolvedUrl.includes("/preview");
+
+                return isIframe ? (
                   <iframe
-                    src={activeItem.videoUrl}
-                    className="w-full h-full"
+                    src={resolvedUrl}
+                    className="w-full h-full border-0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
                 ) : (
                   <video
-                    src={activeItem.videoUrl}
+                    src={resolvedUrl}
                     controls
                     onEnded={() => handleVideoEnded(activeItem.moduleId)}
                     className="w-full h-full object-contain"
                   />
-                )
-              ) : (
-                <div className="text-white/70">Video coming soon</div>
-              )
+                );
+              })()
             ) : (
               <div className="w-full h-full bg-paper-raised overflow-y-auto p-4 flex items-center justify-center">
                 {activeItem && (

@@ -36,7 +36,7 @@ export const curriculum: Module[] = [
     title: "Search is Changing",
     description: "Understand how search behavior is shifting in the AI era.",
     lessons: [
-      { id: "l1", title: "Video Lecture", duration: "4:15", type: "video", videoUrl: "/videos/module-1.mp4" },
+      { id: "l1", title: "Video Lecture", duration: "4:32", type: "video", videoUrl: "https://drive.google.com/file/d/1_VTrIC-wVfqiVhKzfkSGjAeY7aC4Or_F/preview" },
       { id: "l1_quiz", title: "Module Quiz", duration: "3:00", type: "quiz" },
     ],
   },
@@ -45,7 +45,7 @@ export const curriculum: Module[] = [
     title: "Understanding AI Search",
     description: "Deep dive into retrieval systems and synthesis engines.",
     lessons: [
-      { id: "l2", title: "Video Lecture", duration: "6:20", type: "video", videoUrl: "/videos/module-2.mp4" },
+      { id: "l2", title: "Video Lecture", duration: "4:13", type: "video", videoUrl: "https://drive.google.com/file/d/1NRGxDCPMrOQ_aWqx0Df2g4uXXIhDiClq/preview" },
       { id: "l2_quiz", title: "Module Quiz", duration: "3:00", type: "quiz" },
     ],
   },
@@ -54,7 +54,7 @@ export const curriculum: Module[] = [
     title: "Introduction to GEO",
     description: "Learn the core concepts of Generative Engine Optimization.",
     lessons: [
-      { id: "l3", title: "Video Lecture", duration: "5:30", type: "video", videoUrl: "/videos/module-3.mp4" },
+      { id: "l3", title: "Video Lecture", duration: "6:59", type: "video", videoUrl: "https://drive.google.com/file/d/1IEYgPWX5JRfteDcHbPH99w4J9KJV4CyF/preview" },
       { id: "l3_quiz", title: "Module Quiz", duration: "3:00", type: "quiz" },
     ],
   },
@@ -63,7 +63,7 @@ export const curriculum: Module[] = [
     title: "Content for AI",
     description: "How to structure and optimize content for LLM ingestion.",
     lessons: [
-      { id: "l4", title: "Video Lecture", duration: "7:45", type: "video", videoUrl: "/videos/module-4.mp4" },
+      { id: "l4", title: "Video Lecture", duration: "4:19", type: "video", videoUrl: "https://drive.google.com/file/d/1NczIAUKxLxVIatQ89oNnvH3f18AjhjwK/preview" },
       { id: "l4_quiz", title: "Module Quiz", duration: "3:00", type: "quiz" },
     ],
   },
@@ -72,7 +72,7 @@ export const curriculum: Module[] = [
     title: "Building Digital Authority",
     description: "Establishing trustworthiness and credibility for LLMs.",
     lessons: [
-      { id: "l5", title: "Video Lecture", duration: "8:10", type: "video", videoUrl: "/videos/module-5.mp4" },
+      { id: "l5", title: "Video Lecture", duration: "3:33", type: "video", videoUrl: "https://drive.google.com/file/d/1ozxqAXJut3RtgaIg7I84pOABtwLCTRPF/preview" },
       { id: "l5_quiz", title: "Module Quiz", duration: "3:00", type: "quiz" },
     ],
   },
@@ -81,7 +81,7 @@ export const curriculum: Module[] = [
     title: "Future of Search",
     description: "Preparing for the future of agentic and conversational engines.",
     lessons: [
-      { id: "l6", title: "Video Lecture", duration: "5:55", type: "video", videoUrl: "/videos/module-6.mp4" },
+      { id: "l6", title: "Video Lecture", duration: "2:45", type: "video", videoUrl: "https://drive.google.com/file/d/1yQ_2WMY99LUAA38LS-2fE50sU1RgAH1s/preview" },
       { id: "l6_quiz", title: "Module Quiz", duration: "3:00", type: "quiz" },
     ],
   },

@@ -88,12 +88,12 @@ async function main() {
   }
 
   const lessons = [
-    { id: 'les_geo_1', moduleId: 'mod_geo_1', title: 'Video Lecture', duration: '4:15', videoUrl: '/videos/module-1.mp4', isFreePreview: true, order: 1 },
-    { id: 'les_geo_2', moduleId: 'mod_geo_2', title: 'Video Lecture', duration: '6:20', videoUrl: '/videos/module-2.mp4', isFreePreview: false, order: 1 },
-    { id: 'les_geo_3', moduleId: 'mod_geo_3', title: 'Video Lecture', duration: '5:30', videoUrl: '/videos/module-3.mp4', isFreePreview: false, order: 1 },
-    { id: 'les_geo_4', moduleId: 'mod_geo_4', title: 'Video Lecture', duration: '7:45', videoUrl: '/videos/module-4.mp4', isFreePreview: false, order: 1 },
-    { id: 'les_geo_5', moduleId: 'mod_geo_5', title: 'Video Lecture', duration: '8:10', videoUrl: '/videos/module-5.mp4', isFreePreview: false, order: 1 },
-    { id: 'les_geo_6', moduleId: 'mod_geo_6', title: 'Video Lecture', duration: '5:55', videoUrl: '/videos/module-6.mp4', isFreePreview: false, order: 1 }
+    { id: 'les_geo_1', moduleId: 'mod_geo_1', title: 'Video Lecture', duration: '4:32', videoUrl: 'https://drive.google.com/file/d/1_VTrIC-wVfqiVhKzfkSGjAeY7aC4Or_F/preview', isFreePreview: true, order: 1 },
+    { id: 'les_geo_2', moduleId: 'mod_geo_2', title: 'Video Lecture', duration: '4:13', videoUrl: 'https://drive.google.com/file/d/1NRGxDCPMrOQ_aWqx0Df2g4uXXIhDiClq/preview', isFreePreview: false, order: 1 },
+    { id: 'les_geo_3', moduleId: 'mod_geo_3', title: 'Video Lecture', duration: '6:59', videoUrl: 'https://drive.google.com/file/d/1IEYgPWX5JRfteDcHbPH99w4J9KJV4CyF/preview', isFreePreview: false, order: 1 },
+    { id: 'les_geo_4', moduleId: 'mod_geo_4', title: 'Video Lecture', duration: '4:19', videoUrl: 'https://drive.google.com/file/d/1NczIAUKxLxVIatQ89oNnvH3f18AjhjwK/preview', isFreePreview: false, order: 1 },
+    { id: 'les_geo_5', moduleId: 'mod_geo_5', title: 'Video Lecture', duration: '3:33', videoUrl: 'https://drive.google.com/file/d/1ozxqAXJut3RtgaIg7I84pOABtwLCTRPF/preview', isFreePreview: false, order: 1 },
+    { id: 'les_geo_6', moduleId: 'mod_geo_6', title: 'Video Lecture', duration: '2:45', videoUrl: 'https://drive.google.com/file/d/1yQ_2WMY99LUAA38LS-2fE50sU1RgAH1s/preview', isFreePreview: false, order: 1 }
   ]
 
   for (const l of lessons) {

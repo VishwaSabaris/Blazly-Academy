@@ -21,6 +21,7 @@ export function LoginContent({ defaultMode = "login" }: { defaultMode?: AuthMode
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect_url") || "/dashboard";
+  const postSignupUrl = "/onboarding/payment";
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,10 +35,11 @@ export function LoginContent({ defaultMode = "login" }: { defaultMode?: AuthMode
     try {
       if (mode === "login") {
         await signInWithEmail(email, password);
+        router.push(redirectUrl);
       } else {
         await signUpWithEmail(email, password, name);
+        router.push(postSignupUrl);
       }
-      router.push(redirectUrl);
       router.refresh();
     } catch (err: any) {
       console.error("Authentication failed", err);
@@ -60,8 +62,8 @@ export function LoginContent({ defaultMode = "login" }: { defaultMode?: AuthMode
     setError(null);
     setGoogleLoading(true);
     try {
-      await signInWithGoogle(redirectUrl);
-      router.push(redirectUrl);
+      await signInWithGoogle(mode === "signup" ? postSignupUrl : redirectUrl);
+      router.push(mode === "signup" ? postSignupUrl : redirectUrl);
       router.refresh();
     } catch (err: unknown) {
       console.error("Google sign-in failed", err);

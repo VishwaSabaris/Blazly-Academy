@@ -39,4 +39,20 @@ export type UserRecord = {
   email: string;
   name?: string;
   createdAt: string;
+  hasPaid?: boolean;
+  paidAt?: string;
+  stripeCustomerId?: string;
+};
+
+export type PaymentRecord = {
+  sessionId: string;
+  paymentIntentId: string | null;
+  amountTotal: number;
+  currency: string;
+  status: string;
+  productId: string;
+  priceId: string;
+  email: string;
+  uid: string;
+  createdAt: string;
 };

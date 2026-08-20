@@ -5,6 +5,7 @@ import type {
   CourseWithModules,
   EnrollmentRecord,
   ModuleRecord,
+  PaymentRecord,
   UserRecord,
 } from "@/lib/firestore-types";
 import { courses as fallbackCourses } from "@/lib/courses";
@@ -231,4 +232,42 @@ export async function createEnrollment(
     .set(enrollment);
 
   return enrollment;
+}
+
+export async function hasUserCompletedPayment(uid: string): Promise<boolean> {
+  const db = getDb();
+  if (!db) return false;
+
+  const userSnap = await db.collection("users").doc(uid).get();
+  if (!userSnap.exists) return false;
+
+  return Boolean(userSnap.data()?.hasPaid);
+}
+
+export async function savePaymentSuccess(payment: PaymentRecord): Promise<void> {
+  const db = getDb();
+  if (!db) {
+    throw new Error("Firestore is not configured.");
+  }
+
+  const batch = db.batch();
+  const userRef = db.collection("users").doc(payment.uid);
+  const paymentRef = userRef.collection("payments").doc(payment.sessionId);
+  const globalPaymentRef = db.collection("payments").doc(payment.sessionId);
+
+  batch.set(
+    userRef,
+    {
+      uid: payment.uid,
+      email: payment.email,
+      hasPaid: true,
+      paidAt: payment.createdAt,
+    },
+    { merge: true }
+  );
+
+  batch.set(paymentRef, payment, { merge: true });
+  batch.set(globalPaymentRef, payment, { merge: true });
+
+  await batch.commit();
 }
